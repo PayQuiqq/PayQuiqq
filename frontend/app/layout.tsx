@@ -17,7 +17,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "QuikPay - Gasless Crypto Payments",
+  title: "PayQuiq - Gasless Crypto Payments",
   description: "Seamless crypto payments on Lisk Sepolia with gasless transactions",
   generator: "v0.app",
 }

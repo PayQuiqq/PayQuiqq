@@ -3,7 +3,7 @@
 pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
-import "../contracts/QuikPay.sol";
+import "../contracts/PayQuiq.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MockERC20WithPermit is ERC20 {
@@ -31,7 +31,7 @@ contract MockERC20WithPermit is ERC20 {
 }
 
 contract PayOkTest is Test {
-    QuikPay public quikpay;
+    PayQuiq public PayQuiq;
     MockERC20 public mockToken;
     MockERC20WithPermit public mockTokenWithPermit;
     address public receiver = address(0x1);
@@ -39,7 +39,7 @@ contract PayOkTest is Test {
     address public feeRecipient = 0x167142915AD0fAADD84d9741eC253B82aB8625cd;
 
     function setUp() public {
-        quikpay = new QuikPay();
+        PayQuiq = new PayQuiq();
         mockToken = new MockERC20();
         mockTokenWithPermit = new MockERC20WithPermit();
         
@@ -55,7 +55,7 @@ contract PayOkTest is Test {
     ) internal returns (bytes32) {
         bytes32 billId = keccak256(abi.encodePacked(receiver, block.timestamp, amount));
         vm.prank(receiver);
-        quikpay.createBill(billId, token, amount);
+        PayQuiq.createBill(billId, token, amount);
         return billId;
     }
 
@@ -70,8 +70,8 @@ contract PayOkTest is Test {
         uint256 amountAfterFee = amount - fee;
         
         vm.startPrank(payer);
-        mockToken.approve(address(quikpay), amount);
-        quikpay.payBill(billId);
+        mockToken.approve(address(PayQuiq), amount);
+        PayQuiq.payBill(billId);
         
         // Verify balances
         assertEq(mockToken.balanceOf(receiver), amountAfterFee, "Merchant should receive amount after fee");
@@ -79,7 +79,7 @@ contract PayOkTest is Test {
         assertEq(mockToken.balanceOf(payer), 1000 * 10**18 - amount, "Payer balance should be reduced by amount");
         
         // Verify bill status
-        (bool exists, bool isPaid) = quikpay.billStatus(billId);
+        (bool exists, bool isPaid) = PayQuiq.billStatus(billId);
         assertTrue(exists, "Bill should exist");
         assertTrue(isPaid, "Bill should be marked as paid");
     }
@@ -90,7 +90,7 @@ contract PayOkTest is Test {
         bytes32 billId = createBill(address(mockTokenWithPermit), amount);
         
         // Create permit data (values don't matter for mock token)
-        QuikPay.PermitData memory permitData = QuikPay.PermitData({
+        PayQuiq.PermitData memory permitData = PayQuiq.PermitData({
             value: amount,
             deadline: block.timestamp + 1 hours,
             v: 27,
@@ -99,7 +99,7 @@ contract PayOkTest is Test {
         });
 
         // Create authorization
-        QuikPay.PayAuthorization memory auth = QuikPay.PayAuthorization({
+        PayQuiq.PayAuthorization memory auth = PayQuiq.PayAuthorization({
             receiver: receiver,
             token: address(mockTokenWithPermit),
             amount: amount,
@@ -110,10 +110,10 @@ contract PayOkTest is Test {
 
         // Pay with permit
         vm.prank(payer);
-        quikpay.payDynamicERC20WithPermit(auth, permitData);
+        PayQuiq.payDynamicERC20WithPermit(auth, permitData);
 
         // Verify payment
-        (bool exists, bool isPaid) = quikpay.billStatus(billId);
+        (bool exists, bool isPaid) = PayQuiq.billStatus(billId);
         assertTrue(exists, "Bill should exist");
         assertTrue(isPaid, "Bill should be paid with permit");
     }
@@ -125,11 +125,11 @@ contract PayOkTest is Test {
         
         // Approve less than needed
         vm.startPrank(payer);
-        mockToken.approve(address(quikpay), amount - 1);
+        mockToken.approve(address(PayQuiq), amount - 1);
         
         // Should fail with insufficient allowance
         vm.expectRevert("ERC20: insufficient allowance");
-        quikpay.payBill(billId);
+        PayQuiq.payBill(billId);
     }
 
     // New Test: Pay bill with insufficient balance (should fail)
@@ -142,11 +142,11 @@ contract PayOkTest is Test {
         mockToken.mint(poorPayer, amount - 1); // Not enough for the full amount
         
         vm.startPrank(poorPayer);
-        mockToken.approve(address(quikpay), amount);
+        mockToken.approve(address(PayQuiq), amount);
         
         // Should fail with insufficient balance
         vm.expectRevert("ERC20: transfer amount exceeds balance");
-        quikpay.payBill(billId);
+        PayQuiq.payBill(billId);
     }
 
     // New Test: Pay already paid bill (should fail)
@@ -156,12 +156,12 @@ contract PayOkTest is Test {
         
         // First payment should succeed
         vm.startPrank(payer);
-        mockToken.approve(address(quikpay), amount);
-        quikpay.payBill(billId);
+        mockToken.approve(address(PayQuiq), amount);
+        PayQuiq.payBill(billId);
         
         // Second payment should fail
         vm.expectRevert("Bill already paid");
-        quikpay.payBill(billId);
+        PayQuiq.payBill(billId);
     }
 
     // New Test: Pay non-existent bill (should fail)
@@ -170,6 +170,6 @@ contract PayOkTest is Test {
         
         vm.prank(payer);
         vm.expectRevert("Bill does not exist");
-        quikpay.payBill(nonExistentBillId);
+        PayQuiq.payBill(nonExistentBillId);
     }
 }

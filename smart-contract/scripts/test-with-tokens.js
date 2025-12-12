@@ -9,11 +9,11 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   const deployerAddr = await deployer.getAddress();
   
-  console.log("Testing QuikPay with real tokens on Lisk Sepolia");
-  console.log("QuikPay:", contractAddr);
+  console.log("Testing PayQuiq with real tokens on Lisk Sepolia");
+  console.log("PayQuiq:", contractAddr);
   console.log("Deployer:", deployerAddr);
   
-  const quikpay = await ethers.getContractAt('QuikPay', contractAddr);
+  const PayQuiq = await ethers.getContractAt('PayQuiq', contractAddr);
   const usdc = await ethers.getContractAt('MockUSDC', usdcAddr);
   const usdt = await ethers.getContractAt('MockUSDT', usdtAddr);
   const weth = await ethers.getContractAt('MockWETH', wethAddr);
@@ -35,7 +35,7 @@ async function main() {
   const amount = ethers.parseUnits("100", 6); // 100 USDC (6 decimals)
   
   try {
-    const tx = await quikpay.createBill(billId, usdcAddr, amount);
+    const tx = await PayQuiq.createBill(billId, usdcAddr, amount);
     console.log("Tx hash:", tx.hash);
     const receipt = await tx.wait();
     console.log("USDC bill created in block", receipt.blockNumber);
@@ -51,7 +51,7 @@ async function main() {
   const wethAmount = ethers.parseEther("0.5"); // 0.5 WETH
   
   try {
-    const tx = await quikpay.createBill(wethBillId, wethAddr, wethAmount);
+    const tx = await PayQuiq.createBill(wethBillId, wethAddr, wethAmount);
     console.log("Tx hash:", tx.hash);
     const receipt = await tx.wait();
     console.log("WETH bill created in block", receipt.blockNumber);
@@ -63,7 +63,7 @@ async function main() {
   // Test 3: Get bill details
   console.log("\n3. Getting USDC bill details...");
   try {
-    const bill = await quikpay.getBill(billId);
+    const bill = await PayQuiq.getBill(billId);
     console.log("USDC Bill details:");
     console.log("  Receiver:", bill.receiver);
     console.log("  Token:", bill.token);
@@ -78,7 +78,7 @@ async function main() {
   // Test 4: Check for expired bills
   console.log("\n4. Checking for expired bills...");
   try {
-    const hasExpired = await quikpay.hasExpiredBills(deployerAddr);
+    const hasExpired = await PayQuiq.hasExpiredBills(deployerAddr);
     console.log("Has expired bills:", hasExpired);
   } catch (error) {
     console.log("Check expired failed:", error.message);
@@ -87,7 +87,7 @@ async function main() {
   // Test 5: Get user bills
   console.log("\n5. Getting user bills...");
   try {
-    const billIds = await quikpay.getUserBills(deployerAddr);
+    const billIds = await PayQuiq.getUserBills(deployerAddr);
     console.log("User has", billIds.length, "bills");
     for (let i = 0; i < Math.min(billIds.length, 3); i++) {
       console.log(`  Bill ${i + 1}:`, billIds[i]);
@@ -98,7 +98,7 @@ async function main() {
   
   console.log("Token testing completed!");
   console.log("Summary:");
-  console.log("- QuikPay contract:", contractAddr);
+  console.log("- PayQuiq contract:", contractAddr);
   console.log("- MockUSDC:", usdcAddr);
   console.log("- MockUSDT:", usdtAddr);
   console.log("- MockWETH:", wethAddr);

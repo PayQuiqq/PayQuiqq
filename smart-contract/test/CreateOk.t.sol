@@ -3,7 +3,7 @@
 pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
-import "../contracts/QuikPay.sol";
+import "../contracts/PayQuiq.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MockERC20 is ERC20 {
@@ -17,13 +17,13 @@ contract MockERC20 is ERC20 {
 }
 
 contract CreateOkTest is Test {
-    QuikPay public quikpay;
+    PayQuiq public PayQuiq;
     MockERC20 public mockToken;
     address public receiver = address(0x1);
     address public payer = address(0x2);
 
     function setUp() public {
-        quikpay = new QuikPay();
+        PayQuiq = new PayQuiq();
         mockToken = new MockERC20();
         mockToken.mint(payer, 1000 * 10**18);
     }
@@ -36,9 +36,9 @@ contract CreateOkTest is Test {
         bytes32 billId = keccak256(abi.encodePacked(receiver, uint256(1)));
         
         vm.prank(receiver);
-        quikpay.createBill(billId, address(mockToken), maxAmount);
+        PayQuiq.createBill(billId, address(mockToken), maxAmount);
         
-        (bool exists, bool isPaid) = quikpay.billStatus(billId);
+        (bool exists, bool isPaid) = PayQuiq.billStatus(billId);
         assertTrue(exists, "Bill should exist");
         assertFalse(isPaid, "Bill should not be paid");
     }
@@ -50,13 +50,13 @@ contract CreateOkTest is Test {
         for (uint i = 0; i < senders.length; i++) {
             bytes32 billId = keccak256(abi.encodePacked(senders[i], i + 1));
             vm.prank(senders[i]);
-            quikpay.createBill(billId, address(mockToken), 100);
+            PayQuiq.createBill(billId, address(mockToken), 100);
             
-            (bool exists, ) = quikpay.billStatus(billId);
+            (bool exists, ) = PayQuiq.billStatus(billId);
             assertTrue(exists, "Bill should exist");
         }
         
-        assertEq(quikpay.totalBills(), 3, "Should have 3 total bills");
+        assertEq(PayQuiq.totalBills(), 3, "Should have 3 total bills");
     }
 
     // New Test: Create bill with zero amount (should fail)
@@ -65,7 +65,7 @@ contract CreateOkTest is Test {
         
         vm.prank(receiver);
         vm.expectRevert("Amount must be > 0");
-        quikpay.createBill(billId, address(mockToken), 0);
+        PayQuiq.createBill(billId, address(mockToken), 0);
     }
 
     // New Test: Create bill with non-existent token (should still work)
@@ -74,9 +74,9 @@ contract CreateOkTest is Test {
         bytes32 billId = keccak256(abi.encodePacked(receiver, uint256(1)));
         
         vm.prank(receiver);
-        quikpay.createBill(billId, nonExistentToken, 100);
+        PayQuiq.createBill(billId, nonExistentToken, 100);
         
-        (bool exists, ) = quikpay.billStatus(billId);
+        (bool exists, ) = PayQuiq.billStatus(billId);
         assertTrue(exists, "Bill should exist with non-existent token");
     }
 
@@ -86,12 +86,12 @@ contract CreateOkTest is Test {
         
         // First creation should succeed
         vm.prank(receiver);
-        quikpay.createBill(billId, address(mockToken), 100);
+        PayQuiq.createBill(billId, address(mockToken), 100);
         
         // Second creation should fail
         vm.prank(receiver);
         vm.expectRevert("Bill already exists");
-        quikpay.createBill(billId, address(mockToken), 100);
+        PayQuiq.createBill(billId, address(mockToken), 100);
     }
 
     // New Test: Verify event emission on bill creation
@@ -100,9 +100,9 @@ contract CreateOkTest is Test {
         uint256 amount = 100;
         
         vm.expectEmit(true, true, true, true);
-        emit QuikPay.BillCreated(billId, receiver, address(mockToken), amount, block.timestamp);
+        emit PayQuiq.BillCreated(billId, receiver, address(mockToken), amount, block.timestamp);
         
         vm.prank(receiver);
-        quikpay.createBill(billId, address(mockToken), amount);
+        PayQuiq.createBill(billId, address(mockToken), amount);
     }
 }

@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { QrCode, Link2, Wallet, CheckCircle, Scan, ArrowLeft, AlertCircle, Check } from "lucide-react"
 
 
@@ -18,7 +17,8 @@ const BarcodeScanner = dynamic(() =>
 ) as unknown as ComponentType<{ onUpdate: (err: any, result: any) => void } | any>
 import { Navigation } from "@/components/navigation"
 import { WalletConnect } from "@/components/wallet-connect"
-import { useQuikPayContract, useBillDetails, type PayAuthorization } from "@/hooks/use-quikpay-contract"
+import { usePayQuiqContract, useBillDetails, type PayAuthorization } from "@/hooks/use-quikpay-contract"
+
 import { TOKENS } from "@/lib/contract"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { parseUnits } from "viem"
@@ -26,7 +26,7 @@ import Link from "next/link"
 
 export default function PayPage() {
   const { address, isConnected } = useAccount()
-  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = useQuikPayContract()
+  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = usePayQuiqContract()
   
   const [paymentLink, setPaymentLink] = useState("")
   const [copiedLink, setCopiedLink] = useState(false)
@@ -392,8 +392,64 @@ export default function PayPage() {
     }
   }, [isConfirming, isConfirmed, hash, isProcessing])
 
+  if (isComplete) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+        <Navigation />
+        <main className="pt-24 pb-12 px-4">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="mb-6 text-left">
+              <Link href="/">
+                <Button variant="ghost" className="flex items-center space-x-2 hover:bg-primary/10">
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </Button>
+              </Link>
+            </div>
+
+            <div className="mb-8">
+              <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+                <CheckCircle className="w-10 h-10 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold text-foreground mb-4">Payment Successful!</h1>
+              <p className="text-xl text-muted-foreground">Your gasless transaction has been completed</p>
+            </div>
+
+            <Card className="border-2 border-green-200 bg-green-50/50">
+              <CardContent className="pt-6">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Amount Paid:</span>
+                    <span className="font-bold text-green-600">
+                      {paymentData?.amount} {paymentData?.token}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Network:</span>
+                    <span className="font-semibold">Lisk Sepolia</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Gas Fees:</span>
+                    <span className="font-semibold text-green-600">$0.00 (Gasless)</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Button
+              onClick={() => (window.location.href = "/")}
+              className="mt-8 bg-gradient-to-r from-primary to-secondary"
+            >
+              Back to Home
+            </Button>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="pt-24 pb-12 px-4">
@@ -410,11 +466,11 @@ export default function PayPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-primary rounded-xl flex items-center justify-center animate-pulse-glow">
-                <Wallet className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary text-primary-foreground">
+                <Wallet className="w-6 h-6" />
               </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                Make Payment
+              <h1 className="text-4xl font-bold text-foreground">
+                <span className="text-primary">Make</span> Payment
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -627,7 +683,7 @@ export default function PayPage() {
                       {/* Tip banner about gaslessness */}
                       <div className="text-sm text-muted-foreground bg-muted/40 rounded-md p-3">
                         <span>
-                          This payment is sponsored by QuikPay. Your wallet will not pay gas fees.
+                          This payment is sponsored by PayQuiq. Your wallet will not pay gas fees.
                         </span>
                       </div>
 

@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const artifact = await hre.artifacts.readArtifact("QuikPay");
+  const artifact = await hre.artifacts.readArtifact("PayQuiq");
   
   console.log(JSON.stringify(artifact.abi));
 }
