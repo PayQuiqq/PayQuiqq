@@ -38,17 +38,8 @@ export default function PayPage() {
   const [isComplete, setIsComplete] = useState(false)
   const [activeTab, setActiveTab] = useState("scan")
   const [uiError, setUiError] = useState<string>("")
-  const [offrampMode, setOfframpMode] = useState<"wallet" | "bank">("wallet")
-  const [offrampToken, setOfframpToken] = useState("USDC")
-  const [offrampAmount, setOfframpAmount] = useState("")
-  const [offrampWalletAddress, setOfframpWalletAddress] = useState("")
-  const [offrampBankCurrency, setOfframpBankCurrency] = useState("USD")
-  const [offrampBankCountry, setOfframpBankCountry] = useState("")
-  const [offrampBankName, setOfframpBankName] = useState("")
-  const [offrampBankAccountNumber, setOfframpBankAccountNumber] = useState("")
-  const [offrampBankRouting, setOfframpBankRouting] = useState("")
-  const [offrampBankHolderName, setOfframpBankHolderName] = useState("")
-  const [offrampReference, setOfframpReference] = useState("")
+  // Offramp tab currently shows a simple Coming Soon message; detailed UI will be added later
+
   const [isEditingAmount, setIsEditingAmount] = useState(false)
   const [scannerActive, setScannerActive] = useState(false)
   const [scannerError, setScannerError] = useState<string>("")
@@ -673,148 +664,14 @@ export default function PayPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <Wallet className="w-5 h-5 text-primary" />
-                      <span>Offramp Funds</span>
+                      <span>Offramp</span>
                     </CardTitle>
+                    
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="flex gap-2 text-sm bg-muted/50 rounded-lg p-2">
-                      <button
-                        type="button"
-                        className={`flex-1 px-3 py-2 rounded-md border text-center ${offrampMode === "wallet" ? "border-primary bg-background" : "border-transparent"}`}
-                        onClick={() => setOfframpMode("wallet")}
-                      >
-                        Send to wallet
-                      </button>
-                      <button
-                        type="button"
-                        className={`flex-1 px-3 py-2 rounded-md border text-center ${offrampMode === "bank" ? "border-primary bg-background" : "border-transparent"}`}
-                        onClick={() => setOfframpMode("bank")}
-                      >
-                        Send to bank account
-                      </button>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label>Token</Label>
-                        <select
-                          className="w-full border rounded-md bg-background px-3 py-2 text-sm"
-                          value={offrampToken}
-                          onChange={(e) => setOfframpToken(e.target.value)}
-                        >
-                          <option value="USDC">USDC</option>
-                          <option value="USDT">USDT</option>
-                          <option value="WETH">WETH</option>
-                        </select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label>Amount</Label>
-                        <Input
-                          type="number"
-                          placeholder="0.00"
-                          value={offrampAmount}
-                          onChange={(e) => setOfframpAmount(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    {offrampMode === "wallet" && (
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label>Destination wallet address</Label>
-                          <Input
-                            placeholder="0x..."
-                            value={offrampWalletAddress}
-                            onChange={(e) => setOfframpWalletAddress(e.target.value)}
-                          />
-                        </div>
-                        
-                        <Button
-                          type="button"
-                          className="w-full"
-                          disabled={!offrampAmount || !offrampWalletAddress}
-                        >
-                          Make Payment
-                        </Button>
-                      </div>
-                    )}
-
-                    {offrampMode === "bank" && (
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label>Fiat currency</Label>
-                          <select
-                            className="w-full border rounded-md bg-background px-3 py-2 text-sm"
-                            value={offrampBankCurrency}
-                            onChange={(e) => setOfframpBankCurrency(e.target.value)}
-                          >
-                            <option value="USD">USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="NGN">NGN</option>
-                          </select>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label>Country</Label>
-                            <Input
-                              placeholder="e.g. US, NG, DE"
-                              value={offrampBankCountry}
-                              onChange={(e) => setOfframpBankCountry(e.target.value)}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label>Bank name</Label>
-                            <Input
-                              placeholder="Bank name"
-                              value={offrampBankName}
-                              onChange={(e) => setOfframpBankName(e.target.value)}
-                            />
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label>Account number</Label>
-                            <Input
-                              placeholder="Account number"
-                              value={offrampBankAccountNumber}
-                              onChange={(e) => setOfframpBankAccountNumber(e.target.value)}
-                            />
-                          </div>
-                          
-                        </div>
-                        <div className="space-y-2">
-                          <Label>Account holder name</Label>
-                          <Input
-                            placeholder="Full name"
-                            value={offrampBankHolderName}
-                            onChange={(e) => setOfframpBankHolderName(e.target.value)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>Reference (optional)</Label>
-                          <Input
-                            placeholder="Reference for this payout"
-                            value={offrampReference}
-                            onChange={(e) => setOfframpReference(e.target.value)}
-                          />
-                        </div>
-
-                        <Button
-                          type="button"
-                          className="w-full"
-                          disabled={
-                            !offrampAmount ||
-                            !offrampBankCountry ||
-                            !offrampBankName ||
-                            !offrampBankAccountNumber ||
-                            !offrampBankHolderName
-                          }
-                        >
-                          Make Payment
-                        </Button>
-                      </div>
-                    )}
+                  <CardContent>
+                    <p className="text-muted-foreground text-sm">
+                      COMING SOON
+                    </p>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -822,48 +679,6 @@ export default function PayPage() {
           </div>
         </div>
       </main>
-
-      {/* Success modal shown after on-chain payment completes */}
-      <Dialog open={isComplete} onOpenChange={(open) => { if (!open) setIsComplete(false) }}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-500/10 text-green-600">
-                <CheckCircle className="w-5 h-5" />
-              </span>
-              <span>Payment Successful</span>
-            </DialogTitle>
-            <DialogDescription>
-              Your gasless transaction has been completed on Lisk Sepolia.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-3 mt-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Amount paid</span>
-              <span className="font-semibold">
-                {paymentData?.amount} {paymentData?.token}
-              </span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Network</span>
-              <span className="font-semibold">Lisk Sepolia</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Gas fees</span>
-              <span className="font-semibold text-green-600">$0.00 (Gasless)</span>
-            </div>
-          </div>
-          <DialogFooter className="mt-4">
-            <Button
-              type="button"
-              className="w-full sm:w-auto bg-gradient-to-r from-primary to-secondary"
-              onClick={() => setIsComplete(false)}
-            >
-              Close
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }
