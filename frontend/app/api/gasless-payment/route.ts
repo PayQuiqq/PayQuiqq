@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createWalletClient, createPublicClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { LISK_SEPOLIA, QUIKPAY_CONTRACT_ADDRESS, QUIKPAY_ABI } from '@/lib/contract'
+import { LISK_SEPOLIA, PayQuiq_CONTRACT_ADDRESS, PayQuiq_ABI } from '@/lib/contract'
 
 export const runtime = 'nodejs'
 
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       signature: authIn.signature as `0x${string}`,
     }
 
-    if (auth.contractAddress?.toLowerCase() !== QUIKPAY_CONTRACT_ADDRESS.toLowerCase()) {
+    if (auth.contractAddress?.toLowerCase() !== PayQuiq_CONTRACT_ADDRESS.toLowerCase()) {
       return NextResponse.json({ error: 'Invalid contract address' }, { status: 400 })
     }
     if (Number(auth.chainId) !== LISK_SEPOLIA.id) {
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
         address: permit.token,
         abi: permitAbi as any,
         functionName: 'permit',
-        args: [permit.owner, QUIKPAY_CONTRACT_ADDRESS, permit.value, permit.deadline, permit.v, permit.r, permit.s],
+        args: [permit.owner, PayQuiq_CONTRACT_ADDRESS, permit.value, permit.deadline, permit.v, permit.r, permit.s],
       })
     } catch (permErr: any) {
       console.error('gasless-payment token permit simulate error:', permErr)
@@ -110,8 +110,8 @@ export async function POST(request: Request) {
       await publicClient.simulateContract({
         chain: LISK_SEPOLIA as any,
         account,
-        address: QUIKPAY_CONTRACT_ADDRESS,
-        abi: QUIKPAY_ABI as any,
+        address: PayQuiq_CONTRACT_ADDRESS,
+        abi: PayQuiq_ABI as any,
         functionName: 'payDynamicERC20WithPermit',
         args: [auth, permit],
       })
@@ -122,12 +122,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `Simulation revert: ${msg}`, details }, { status: 400 })
     }
 
-    // Call QuikPay.payDynamicERC20WithPermit(auth, permit)
+    // Call PayQuiq.payDynamicERC20WithPermit(auth, permit)
     const hash = await walletClient.writeContract({
       chain: LISK_SEPOLIA as any,
       account,
-      address: QUIKPAY_CONTRACT_ADDRESS,
-      abi: QUIKPAY_ABI as any,
+      address: PayQuiq_CONTRACT_ADDRESS,
+      abi: PayQuiq_ABI as any,
       functionName: 'payDynamicERC20WithPermit',
       args: [auth, permit],
     })

@@ -17,19 +17,18 @@ const steps = [
   {
     icon: CheckCircle,
     title: "Instant Settlement",
-    description: "QuikPay can sponsor gas fees and settles the payment instantly on the Lisk network",
+    description: "PayQuiq can sponsor gas fees and settles the payment instantly on the Lisk network",
     step: "03",
   },
 ]
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-background">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 animate-slide-up">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            How <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">QuikPay</span>{" "}
-            Works
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">
+            How <span className="text-primary">PayQuiq</span> Works
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Three simple steps to revolutionize your payment experience
@@ -43,13 +42,13 @@ export function HowItWorks() {
                 <CardContent className="p-8 text-center">
                   {/* Step Number */}
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm">
                       {step.step}
                     </div>
                   </div>
 
                   {/* Icon */}
-                  <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <step.icon className="w-8 h-8 text-primary" />
                   </div>
 

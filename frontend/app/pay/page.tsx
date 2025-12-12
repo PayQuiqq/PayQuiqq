@@ -17,7 +17,7 @@ const BarcodeScanner = dynamic(() =>
 ) as unknown as ComponentType<{ onUpdate: (err: any, result: any) => void } | any>
 import { Navigation } from "@/components/navigation"
 import { WalletConnect } from "@/components/wallet-connect"
-import { useQuikPayContract, useBillDetails, type PayAuthorization } from "@/hooks/use-quikpay-contract"
+import { usePayQuiqContract, useBillDetails, type PayAuthorization } from "@/hooks/use-PayQuiq-contract"
 import { TOKENS } from "@/lib/contract"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { parseUnits } from "viem"
@@ -25,7 +25,7 @@ import Link from "next/link"
 
 export default function PayPage() {
   const { address, isConnected } = useAccount()
-  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = useQuikPayContract()
+  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = usePayQuiqContract()
   
   const [paymentLink, setPaymentLink] = useState("")
   const [copiedLink, setCopiedLink] = useState(false)
@@ -402,7 +402,7 @@ export default function PayPage() {
 
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <main className="pt-24 pb-12 px-4">
           <div className="max-w-2xl mx-auto text-center">
@@ -446,7 +446,7 @@ export default function PayPage() {
 
             <Button
               onClick={() => (window.location.href = "/")}
-              className="mt-8 bg-gradient-to-r from-primary to-secondary"
+              className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               Back to Home
             </Button>
@@ -457,7 +457,7 @@ export default function PayPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="pt-24 pb-12 px-4">
@@ -474,11 +474,11 @@ export default function PayPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-primary rounded-xl flex items-center justify-center animate-pulse-glow">
-                <Wallet className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary text-primary-foreground">
+                <Wallet className="w-6 h-6" />
               </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                Make Payment
+              <h1 className="text-4xl font-bold text-foreground">
+                <span className="text-primary">Make</span> Payment
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -691,7 +691,7 @@ export default function PayPage() {
                       {/* Tip banner about gaslessness */}
                       <div className="text-sm text-muted-foreground bg-muted/40 rounded-md p-3">
                         <span>
-                          This payment is sponsored by QuikPay. Your wallet will not pay gas fees.
+                          This payment is sponsored by PayQuiq. Your wallet will not pay gas fees.
                         </span>
                       </div>
 

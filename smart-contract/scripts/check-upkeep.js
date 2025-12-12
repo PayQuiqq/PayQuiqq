@@ -18,7 +18,7 @@ async function main() {
     process.exit(1);
   }
   const [contractAddr, a2, a3] = args;
-  const quikpay = await ethers.getContractAt("QuikPay", contractAddr);
+  const PayQuiq = await ethers.getContractAt("PayQuiq", contractAddr);
 
   let checkData;
   if (a2 && a3) {
@@ -34,7 +34,7 @@ async function main() {
     process.exit(1);
   }
 
-  const [needed, performData] = await quikpay.checkUpkeep.staticCall(checkData);
+  const [needed, performData] = await PayQuiq.checkUpkeep.staticCall(checkData);
   console.log("upkeepNeeded:", needed);
   console.log("performData:", performData);
 }

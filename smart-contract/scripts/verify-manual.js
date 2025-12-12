@@ -7,11 +7,11 @@ async function main() {
   console.log("Contract Address:", contractAddress);
 
   // Read the contract source code
-  const contractPath = path.join(__dirname, '../contracts/QuikPay.sol');
+  const contractPath = path.join(__dirname, '../contracts/PayQuiq.sol');
   const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
   console.log("Verification Details:");
-  console.log("Contract Name: QuikPay");
+  console.log("Contract Name: PayQuiq");
   console.log("Compiler Version: 0.8.20");
   console.log("Optimization: Enabled (200 runs)");
   console.log("License: MIT");
@@ -26,11 +26,11 @@ async function main() {
   console.log("2. Click 'Verify Contract' button");
   console.log("3. Select 'Solidity (Single file)'");
   console.log("4. Enter the following details:");
-  console.log("   - Contract Name: QuikPay");
+  console.log("   - Contract Name: PayQuiq");
   console.log("   - Compiler Version: v0.8.20+commit.a1b79de6");
   console.log("   - Optimization: Yes (200 runs)");
   console.log("   - License Type: MIT");
-  console.log("5. Copy and paste the entire source code from contracts/QuikPay.sol");
+  console.log("5. Copy and paste the entire source code from contracts/PayQuiq.sol");
   console.log("6. Click 'Verify and Publish'");
 
   console.log("\n Full source code file location:");

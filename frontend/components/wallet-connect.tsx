@@ -54,7 +54,7 @@ export function WalletConnect() {
   return (
     <Button
       onClick={() => open()}
-      className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 transform hover:scale-105 transition-all duration-200"
+      className="bg-primary hover:bg-primary/90 text-primary-foreground transform hover:scale-105 transition-all duration-200"
     >
       <Wallet className="w-4 h-4 mr-2" />
       Connect Wallet

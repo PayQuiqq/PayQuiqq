@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { QrCode, Copy, Link2, Zap, ArrowLeft, History, FileText, Wallet, Share2, Download, Check } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { WalletConnect } from "@/components/wallet-connect"
-import { TOKENS, QUIKPAY_CONTRACT_ADDRESS, LISK_SEPOLIA } from "@/lib/contract"
+import { TOKENS, PayQuiq_CONTRACT_ADDRESS, LISK_SEPOLIA } from "@/lib/contract"
 import { useExpiryWindow } from "@/hooks/use-quikpay-contract"
 import { formatDuration } from "@/lib/utils"
 import { encodeAbiParameters, keccak256, createPublicClient, http, parseAbiItem, formatUnits } from "viem"
@@ -78,14 +78,14 @@ export default function MerchantPage() {
         // Fetch 2 event types in parallel per batch
         const [e20, ebill] = await Promise.all([
           publicClient.getLogs({
-            address: QUIKPAY_CONTRACT_ADDRESS,
+            address: PayQuiq_CONTRACT_ADDRESS,
             event: eDynamicErc20,
             args: { receiver: address },
             fromBlock: from,
             toBlock: to,
           }),
           publicClient.getLogs({
-            address: QUIKPAY_CONTRACT_ADDRESS,
+            address: PayQuiq_CONTRACT_ADDRESS,
             event: eBillPaid,
             args: { receiver: address },
             fromBlock: from,
@@ -237,7 +237,7 @@ export default function MerchantPage() {
       }
       // Subscribe ERC20
       const un1 = publicClient.watchEvent({
-        address: QUIKPAY_CONTRACT_ADDRESS,
+        address: PayQuiq_CONTRACT_ADDRESS,
         event: eDynamicErc20,
         args: { receiver: address },
         onLogs,
@@ -248,7 +248,7 @@ export default function MerchantPage() {
       unsubs.push(un1)
       // Subscribe BillPaid
       const un3 = publicClient.watchEvent({
-        address: QUIKPAY_CONTRACT_ADDRESS,
+        address: PayQuiq_CONTRACT_ADDRESS,
         event: eBillPaid,
         args: { receiver: address },
         onLogs: (logs:any[]) => {
@@ -304,7 +304,7 @@ export default function MerchantPage() {
       // Build EIP-191 signed auth: keccak256(abi.encode(receiver, token, chainId, contractAddress))
       const encoded = encodeAbiParameters(
         [{ name: 'receiver', type: 'address' }, { name: 'token', type: 'address' }, { name: 'chainId', type: 'uint256' }, { name: 'contractAddress', type: 'address' }],
-        [address, tokenAddress, BigInt(selectedChainId), QUIKPAY_CONTRACT_ADDRESS]
+        [address, tokenAddress, BigInt(selectedChainId), PayQuiq_CONTRACT_ADDRESS]
       )
       const innerHash = keccak256(encoded)
 
@@ -315,7 +315,7 @@ export default function MerchantPage() {
       })
 
       const amtParam = amount ? `amount=${encodeURIComponent(amount)}&` : ""
-      const link = `${window.location.origin}/pay?${amtParam}token=${encodeURIComponent(token)}&receiver=${address}&chainId=${selectedChainId}&contract=${QUIKPAY_CONTRACT_ADDRESS}&sig=${sig}`
+      const link = `${window.location.origin}/pay?${amtParam}token=${encodeURIComponent(token)}&receiver=${address}&chainId=${selectedChainId}&contract=${PayQuiq_CONTRACT_ADDRESS}&sig=${sig}`
       setPaymentLink(link)
       setQrGenerated(true)
 
@@ -349,7 +349,7 @@ export default function MerchantPage() {
   const shareLink = async () => {
     try {
       if (navigator.share) {
-        await navigator.share({ title: 'QuikPay Payment', text: description || 'Pay with QuikPay', url: paymentLink })
+        await navigator.share({ title: 'PayQuiq Payment', text: description || 'Pay with PayQuiq', url: paymentLink })
       } else {
         copyLink()
       }
@@ -375,7 +375,7 @@ export default function MerchantPage() {
       const url = URL.createObjectURL(pngBlob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `quikpay-qr-${Date.now()}.png`
+      a.download = `PayQuiq-qr-${Date.now()}.png`
       a.click()
       URL.revokeObjectURL(url)
     } catch {}
@@ -386,16 +386,16 @@ export default function MerchantPage() {
     try {
       if (!paymentLink) return
       const pngBlob = await generatePngBlobFromLink(paymentLink)
-      const file = new File([pngBlob], `quikpay-qr-${Date.now()}.png`, { type: 'image/png' })
+      const file = new File([pngBlob], `PayQuiq-qr-${Date.now()}.png`, { type: 'image/png' })
       const navAny: any = navigator
       if (navAny?.canShare && navAny.canShare({ files: [file] }) && navAny?.share) {
-        await navAny.share({ files: [file], title: 'QuikPay QR Code', text: description || 'Scan to pay' })
+        await navAny.share({ files: [file], title: 'PayQuiq QR Code', text: description || 'Scan to pay' })
       } else {
         // fallback to download PNG
         const url = URL.createObjectURL(pngBlob)
         const a = document.createElement('a')
         a.href = url
-        a.download = `quikpay-qr-${Date.now()}.png`
+        a.download = `PayQuiq-qr-${Date.now()}.png`
         a.click()
         URL.revokeObjectURL(url)
       }
@@ -403,7 +403,7 @@ export default function MerchantPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="pt-24 pb-12 px-4">
@@ -420,11 +420,11 @@ export default function MerchantPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center animate-pulse-glow">
-                <Zap className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary text-primary-foreground">
+                <Zap className="w-6 h-6" />
               </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Merchant Dashboard
+              <h1 className="text-4xl font-bold text-foreground">
+                <span className="text-primary">Merchant</span> Dashboard
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -508,7 +508,7 @@ export default function MerchantPage() {
 
                     <Button
                       onClick={generatePayment}
-                      className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 transform hover:scale-105 transition-all duration-200"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transform hover:scale-105 transition-all duration-200"
                       disabled={!token}
                     >
                       Generate Payment
@@ -660,7 +660,7 @@ export default function MerchantPage() {
                           >
                             {copiedId === payment.id ? <Check className="w-4 h-4 text-green-600"/> : <Copy className="w-4 h-4" />}
                           </Button>
-                          <Button onClick={() => navigator.share?.({ title:'QuikPay Payment', url: payment.link })}
+                          <Button onClick={() => navigator.share?.({ title:'PayQuiq Payment', url: payment.link })}
                             variant="outline" size="icon" className="hover:bg-secondary/10">
                             <Share2 className="w-4 h-4"/>
                           </Button>

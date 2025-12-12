@@ -2,7 +2,7 @@ const hre = require("hardhat");
 const { ethers } = require("hardhat");
 
 async function main() {
-  console.log(" Deploying QuikPay contract...");
+  console.log(" Deploying PayQuiq contract...");
   
   // Get the deployer account
   const signers = await ethers.getSigners();
@@ -29,8 +29,8 @@ async function main() {
   } catch {}
   
   // Deploy the contract
-  console.log("\n Deploying QuikPay contract...");
-  const QuikPay = await ethers.getContractFactory("QuikPay");
+  console.log("\n Deploying PayQuiq contract...");
+  const PayQuiq = await ethers.getContractFactory("PayQuiq");
   
   // Get current fee data (EIP-1559)
   const feeData = await ethers.provider.getFeeData();
@@ -40,9 +40,9 @@ async function main() {
   console.log("  Max priority fee:", feeData.maxPriorityFeePerGas ? ethers.formatUnits(feeData.maxPriorityFeePerGas, "gwei") + " gwei" : "N/A");
   
   // Get gas estimate and add 5% buffer
-  const deploymentData = QuikPay.interface.encodeDeploy([]);
+  const deploymentData = PayQuiq.interface.encodeDeploy([]);
   const gasEstimate = await ethers.provider.estimateGas({
-    data: QuikPay.bytecode + deploymentData.slice(2)
+    data: PayQuiq.bytecode + deploymentData.slice(2)
   });
   const gasLimit = (gasEstimate * 105n) / 100n; // Add 5% buffer
   
@@ -69,24 +69,24 @@ async function main() {
     console.log(" Using legacy transaction");
   }
   
-  const quikPay = await QuikPay.deploy(deployOptions);
+  const PayQuiq = await PayQuiq.deploy(deployOptions);
   
   // Wait for deployment
-  await quikPay.waitForDeployment();
-  const contractAddress = await quikPay.getAddress();
+  await PayQuiq.waitForDeployment();
+  const contractAddress = await PayQuiq.getAddress();
   
-  console.log(" QuikPay deployed successfully!");
+  console.log(" PayQuiq deployed successfully!");
   console.log(" Contract address:", contractAddress);
   console.log(" Block explorer:", getExplorerUrl(network.chainId, contractAddress));
 
   // Prepare deployment info
   const deploymentInfo = {
-    contract: "QuikPay",
+    contract: "PayQuiq",
     address: contractAddress,
     deployer: deployerAddress,
     chainId: network.chainId.toString(),
     timestamp: new Date().toISOString(),
-    txHash: quikPay.deploymentTransaction().hash,
+    txHash: PayQuiq.deploymentTransaction().hash,
   };
 
   // Persist deployment info

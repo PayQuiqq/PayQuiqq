@@ -1,4 +1,4 @@
-# QuikPay – Lisk Payment dApp
+# PayQuiq – Lisk Payment dApp
 
 Create and receive QR-based payments on Lisk Sepolia with gasless ERC‑20 support.
 
@@ -30,7 +30,7 @@ Create and receive QR-based payments on Lisk Sepolia with gasless ERC‑20 suppo
 ## Contract (Lisk Sepolia)
 - ChainId: 4202
 - Explorer: https://sepolia-blockscout.lisk.com
-- QuikPay: TBD (deploy after migration)
+- PayQuiq: TBD (deploy after migration)
 - Tokens:
   USDC: TBD (deploy mock tokens on Lisk)
   USDT: TBD (deploy mock tokens on Lisk)

@@ -18,11 +18,11 @@ interface IERC20Permit {
 }
 
 /**
- * @title QuikPay
+ * @title PayQuiq
  * @dev Smart contract for creating and paying bills via payment links
- * @author QuikPay Team
+ * @author PayQuiq Team
  */
-contract QuikPay is ReentrancyGuard {
+contract PayQuiq is ReentrancyGuard {
     struct Bill {
         address receiver;
         address token; // ERC20 token address only

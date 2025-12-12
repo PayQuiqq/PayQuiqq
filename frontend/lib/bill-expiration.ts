@@ -1,4 +1,4 @@
-import { QUIKPAY_CONTRACT_ADDRESS, QUIKPAY_ABI } from './contract';
+import { PayQuiq_CONTRACT_ADDRESS, PayQuiq_ABI } from './contract';
 import { readContract, writeContract } from '@wagmi/core';
 import { wagmiConfig } from './appkit';
 
@@ -64,8 +64,8 @@ export function formatTimeRemaining(seconds: number): string {
 export async function hasExpiredBills(receiver: string): Promise<boolean> {
   try {
     const result = await readContract(wagmiConfig, {
-      address: QUIKPAY_CONTRACT_ADDRESS as `0x${string}`,
-      abi: QUIKPAY_ABI,
+      address: PayQuiq_CONTRACT_ADDRESS as `0x${string}`,
+      abi: PayQuiq_ABI,
       functionName: 'hasExpiredBills',
       args: [receiver as `0x${string}`],
     });
@@ -90,8 +90,8 @@ export async function hasExpiredBills(receiver: string): Promise<boolean> {
 export async function getUserBills(userAddress: string): Promise<string[]> {
   try {
     const result = await readContract(wagmiConfig, {
-      address: QUIKPAY_CONTRACT_ADDRESS as `0x${string}`,
-      abi: QUIKPAY_ABI,
+      address: PayQuiq_CONTRACT_ADDRESS as `0x${string}`,
+      abi: PayQuiq_ABI,
       functionName: 'getUserBills',
       args: [userAddress as `0x${string}`],
     });
@@ -109,8 +109,8 @@ export async function getUserBills(userAddress: string): Promise<string[]> {
 export async function getBill(billId: string): Promise<Bill | null> {
   try {
     const result = await readContract(wagmiConfig, {
-      address: QUIKPAY_CONTRACT_ADDRESS as `0x${string}`,
-      abi: QUIKPAY_ABI,
+      address: PayQuiq_CONTRACT_ADDRESS as `0x${string}`,
+      abi: PayQuiq_ABI,
       functionName: 'getBill',
       args: [billId as `0x${string}`],
     });
@@ -139,8 +139,8 @@ export async function getBill(billId: string): Promise<Bill | null> {
 export async function expireOldBills(receiver: string, maxToExpire: number = 10) {
   try {
     const result = await writeContract(wagmiConfig, {
-      address: QUIKPAY_CONTRACT_ADDRESS as `0x${string}`,
-      abi: QUIKPAY_ABI,
+      address: PayQuiq_CONTRACT_ADDRESS as `0x${string}`,
+      abi: PayQuiq_ABI,
       functionName: 'expireOldBills',
       args: [receiver as `0x${string}`, BigInt(maxToExpire)],
     });
