@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { QrCode, Link2, Wallet, CheckCircle, Scan, ArrowLeft, AlertCircle, Check } from "lucide-react"
 
 
@@ -400,62 +401,6 @@ export default function PayPage() {
     }
   }, [isConfirming, isConfirmed, hash, isProcessing])
 
-  if (isComplete) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
-        <Navigation />
-        <main className="pt-24 pb-12 px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="mb-6 text-left">
-              <Link href="/">
-                <Button variant="ghost" className="flex items-center space-x-2 hover:bg-primary/10">
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </Button>
-              </Link>
-            </div>
-
-            <div className="mb-8">
-              <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
-                <CheckCircle className="w-10 h-10 text-white" />
-              </div>
-              <h1 className="text-4xl font-bold text-foreground mb-4">Payment Successful!</h1>
-              <p className="text-xl text-muted-foreground">Your gasless transaction has been completed</p>
-            </div>
-
-            <Card className="border-2 border-green-200 bg-green-50/50">
-              <CardContent className="pt-6">
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Amount Paid:</span>
-                    <span className="font-bold text-green-600">
-                      {paymentData?.amount} {paymentData?.token}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Network:</span>
-                    <span className="font-semibold">Lisk Sepolia</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Gas Fees:</span>
-                    <span className="font-semibold text-green-600">$0.00 (Gasless)</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Button
-              onClick={() => (window.location.href = "/")}
-              className="mt-8 bg-gradient-to-r from-primary to-secondary"
-            >
-              Back to Home
-            </Button>
-          </div>
-        </main>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
       <Navigation />
@@ -730,9 +675,6 @@ export default function PayPage() {
                       <Wallet className="w-5 h-5 text-primary" />
                       <span>Offramp Funds</span>
                     </CardTitle>
-                    <CardDescription>
-                      Convert your on-chain balance either to another wallet address or to a bank account. This is UI-only for now; no real off-ramp provider is connected yet.
-                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="flex gap-2 text-sm bg-muted/50 rounded-lg p-2">
@@ -787,16 +729,13 @@ export default function PayPage() {
                             onChange={(e) => setOfframpWalletAddress(e.target.value)}
                           />
                         </div>
-                        <div className="text-sm text-muted-foreground bg-muted/40 rounded-md p-3">
-                          This will eventually send {offrampAmount || "the specified"} {offrampToken} from your connected
-                          wallet to the destination address. No transaction is executed yet; this is a visual prototype.
-                        </div>
+                        
                         <Button
                           type="button"
                           className="w-full"
                           disabled={!offrampAmount || !offrampWalletAddress}
                         >
-                          Preview send to wallet (UI only)
+                          Make Payment
                         </Button>
                       </div>
                     )}
@@ -835,21 +774,14 @@ export default function PayPage() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label>Account number / IBAN</Label>
+                            <Label>Account number</Label>
                             <Input
-                              placeholder="Account number or IBAN"
+                              placeholder="Account number"
                               value={offrampBankAccountNumber}
                               onChange={(e) => setOfframpBankAccountNumber(e.target.value)}
                             />
                           </div>
-                          <div className="space-y-2">
-                            <Label>Routing / Sort code (optional)</Label>
-                            <Input
-                              placeholder="Routing or sort code"
-                              value={offrampBankRouting}
-                              onChange={(e) => setOfframpBankRouting(e.target.value)}
-                            />
-                          </div>
+                          
                         </div>
                         <div className="space-y-2">
                           <Label>Account holder name</Label>
@@ -868,8 +800,6 @@ export default function PayPage() {
                           />
                         </div>
 
-                        
-
                         <Button
                           type="button"
                           className="w-full"
@@ -881,7 +811,7 @@ export default function PayPage() {
                             !offrampBankHolderName
                           }
                         >
-                          Preview bank payout (UI only)
+                          Make Payment
                         </Button>
                       </div>
                     )}
@@ -892,6 +822,48 @@ export default function PayPage() {
           </div>
         </div>
       </main>
+
+      {/* Success modal shown after on-chain payment completes */}
+      <Dialog open={isComplete} onOpenChange={(open) => { if (!open) setIsComplete(false) }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-500/10 text-green-600">
+                <CheckCircle className="w-5 h-5" />
+              </span>
+              <span>Payment Successful</span>
+            </DialogTitle>
+            <DialogDescription>
+              Your gasless transaction has been completed on Lisk Sepolia.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 mt-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Amount paid</span>
+              <span className="font-semibold">
+                {paymentData?.amount} {paymentData?.token}
+              </span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Network</span>
+              <span className="font-semibold">Lisk Sepolia</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Gas fees</span>
+              <span className="font-semibold text-green-600">$0.00 (Gasless)</span>
+            </div>
+          </div>
+          <DialogFooter className="mt-4">
+            <Button
+              type="button"
+              className="w-full sm:w-auto bg-gradient-to-r from-primary to-secondary"
+              onClick={() => setIsComplete(false)}
+            >
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
