@@ -402,7 +402,7 @@ export default function PayPage() {
 
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <main className="pt-24 pb-12 px-4">
           <div className="max-w-2xl mx-auto text-center">
@@ -446,7 +446,7 @@ export default function PayPage() {
 
             <Button
               onClick={() => (window.location.href = "/")}
-              className="mt-8 bg-gradient-to-r from-primary to-secondary"
+              className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               Back to Home
             </Button>
@@ -457,7 +457,7 @@ export default function PayPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="pt-24 pb-12 px-4">
@@ -474,11 +474,11 @@ export default function PayPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-primary rounded-xl flex items-center justify-center animate-pulse-glow">
-                <Wallet className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary text-primary-foreground">
+                <Wallet className="w-6 h-6" />
               </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                Make Payment
+              <h1 className="text-4xl font-bold text-foreground">
+                <span className="text-primary">Make</span> Payment
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

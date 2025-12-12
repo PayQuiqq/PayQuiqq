@@ -1,5 +1,5 @@
 // PayQuiq Contract Configuration
-import PayQuiqAbi from './abi/PayQuiq.json';
+import PayQuiqAbi from './abi/quikpay.json';
 import type { Abi } from 'viem';
 
 // PayQuiq Contract address

@@ -81,7 +81,7 @@ export function Hero() {
           <Link href="/pay">
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 w-full sm:w-auto"
+              className="bg-white text-primary hover:bg-white/90 text-lg px-8 w-full sm:w-auto"
             >
               Connect Wallet
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -91,7 +91,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 bg-transparent w-full sm:w-auto"
+              className="border-white text-primary-foreground hover:bg-white/10 text-lg px-8 bg-transparent w-full sm:w-auto"
             >
               Sign Up as Merchant
             </Button>
@@ -101,7 +101,7 @@ export function Hero() {
             variant="outline"
             disabled={isClaiming || claimState === "cooldown"}
             onClick={handleClaim}
-            className="border-primary/40 text-primary hover:bg-primary/10 text-lg px-8 w-full sm:w-auto"
+            className="border-white/70 text-primary-foreground hover:bg-white/10 text-lg px-8 w-full sm:w-auto"
           >
             {claimState === "claimed"
               ? "Claimed"

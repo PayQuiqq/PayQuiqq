@@ -12,7 +12,7 @@ import { QrCode, Copy, Link2, Zap, ArrowLeft, History, FileText, Wallet, Share2,
 import { Navigation } from "@/components/navigation"
 import { WalletConnect } from "@/components/wallet-connect"
 import { TOKENS, PayQuiq_CONTRACT_ADDRESS, LISK_SEPOLIA } from "@/lib/contract"
-import { useExpiryWindow } from "@/hooks/use-PayQuiq-contract"
+import { useExpiryWindow } from "@/hooks/use-quikpay-contract"
 import { formatDuration } from "@/lib/utils"
 import { encodeAbiParameters, keccak256, createPublicClient, http, parseAbiItem, formatUnits } from "viem"
 import Link from "next/link"
@@ -403,7 +403,7 @@ export default function MerchantPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="pt-24 pb-12 px-4">
@@ -420,11 +420,11 @@ export default function MerchantPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center animate-pulse-glow">
-                <Zap className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary text-primary-foreground">
+                <Zap className="w-6 h-6" />
               </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Merchant Dashboard
+              <h1 className="text-4xl font-bold text-foreground">
+                <span className="text-primary">Merchant</span> Dashboard
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -508,7 +508,7 @@ export default function MerchantPage() {
 
                     <Button
                       onClick={generatePayment}
-                      className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 transform hover:scale-105 transition-all duration-200"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transform hover:scale-105 transition-all duration-200"
                       disabled={!token}
                     >
                       Generate Payment
