@@ -400,7 +400,7 @@
             "type": "address"
           }
         ],
-        "internalType": "struct QuikPay.Bill",
+        "internalType": "struct PayQuiq.Bill",
         "name": "",
         "type": "tuple"
       }
@@ -532,7 +532,7 @@
             "type": "bytes"
           }
         ],
-        "internalType": "struct QuikPay.Authorization",
+        "internalType": "struct PayQuiq.Authorization",
         "name": "authorization",
         "type": "tuple"
       }
@@ -572,7 +572,7 @@
             "type": "bytes"
           }
         ],
-        "internalType": "struct QuikPay.PayAuthorization",
+        "internalType": "struct PayQuiq.PayAuthorization",
         "name": "auth",
         "type": "tuple"
       },
@@ -614,7 +614,7 @@
             "type": "bytes32"
           }
         ],
-        "internalType": "struct QuikPay.PermitData",
+        "internalType": "struct PayQuiq.PermitData",
         "name": "permit",
         "type": "tuple"
       }

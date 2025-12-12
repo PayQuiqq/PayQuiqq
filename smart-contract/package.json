@@ -1,7 +1,7 @@
 {
   "name": "contract",
   "version": "1.0.0",
-  "description": "QuikPay Smart Contract - Hardhat project",
+  "description": "PayQuiq Smart Contract - Hardhat project",
   "private": true,
   "scripts": {
     "build": "npx hardhat compile",

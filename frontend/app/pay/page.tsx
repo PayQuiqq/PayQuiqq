@@ -17,7 +17,7 @@ const BarcodeScanner = dynamic(() =>
 ) as unknown as ComponentType<{ onUpdate: (err: any, result: any) => void } | any>
 import { Navigation } from "@/components/navigation"
 import { WalletConnect } from "@/components/wallet-connect"
-import { useQuikPayContract, useBillDetails, type PayAuthorization } from "@/hooks/use-quikpay-contract"
+import { usePayQuiqContract, useBillDetails, type PayAuthorization } from "@/hooks/use-PayQuiq-contract"
 import { TOKENS } from "@/lib/contract"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { parseUnits } from "viem"
@@ -25,7 +25,7 @@ import Link from "next/link"
 
 export default function PayPage() {
   const { address, isConnected } = useAccount()
-  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = useQuikPayContract()
+  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = usePayQuiqContract()
   
   const [paymentLink, setPaymentLink] = useState("")
   const [copiedLink, setCopiedLink] = useState(false)
@@ -691,7 +691,7 @@ export default function PayPage() {
                       {/* Tip banner about gaslessness */}
                       <div className="text-sm text-muted-foreground bg-muted/40 rounded-md p-3">
                         <span>
-                          This payment is sponsored by QuikPay. Your wallet will not pay gas fees.
+                          This payment is sponsored by PayQuiq. Your wallet will not pay gas fees.
                         </span>
                       </div>
 

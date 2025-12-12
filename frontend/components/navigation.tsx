@@ -19,7 +19,7 @@ export function Navigation() {
               <Zap className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              QuikPay
+              PayQuiq
             </span>
           </Link>
 

@@ -1,11 +1,11 @@
-// QuikPay Contract Configuration
-import quikpayAbi from './abi/quikpay.json';
+// PayQuiq Contract Configuration
+import PayQuiqAbi from './abi/PayQuiq.json';
 import type { Abi } from 'viem';
 
-// QuikPay Contract address
-export const QUIKPAY_CONTRACT_ADDRESS = '0x1be4B9D2322Af38e9f7f1496eBa46b7Cd31d3b51' as const;
+// PayQuiq Contract address
+export const PayQuiq_CONTRACT_ADDRESS = '0x1be4B9D2322Af38e9f7f1496eBa46b7Cd31d3b51' as const;
 
-export const QUIKPAY_ABI = quikpayAbi as Abi;
+export const PayQuiq_ABI = PayQuiqAbi as Abi;
 
 // Network Configuration
 export const LISK_SEPOLIA = {

@@ -28,10 +28,10 @@ async function main() {
     throw new Error("Receiver must be a valid address");
   }
 
-  const quikpay = await ethers.getContractAt("QuikPay", contractAddr);
+  const PayQuiq = await ethers.getContractAt("PayQuiq", contractAddr);
 
   // Check if there are expired bills
-  const hasExpired = await quikpay.hasExpiredBills(receiver);
+  const hasExpired = await PayQuiq.hasExpiredBills(receiver);
   console.log(`Receiver: ${receiver}`);
   console.log(`Has expired bills: ${hasExpired}`);
 
@@ -43,7 +43,7 @@ async function main() {
   }
 
   // Get all bills for this receiver to show details
-  const userBills = await quikpay.getUserBills(receiver);
+  const userBills = await PayQuiq.getUserBills(receiver);
   console.log(`\nTotal bills for this receiver: ${userBills.length}`);
 
   if (userBills.length > 0) {
@@ -52,7 +52,7 @@ async function main() {
     const BILL_EXPIRY_SECONDS = 72 * 60 * 60; // 72 hours
 
     for (let i = 0; i < Math.min(userBills.length, 10); i++) { // Show max 10 bills
-      const bill = await quikpay.getBill(userBills[i]);
+      const bill = await PayQuiq.getBill(userBills[i]);
       const isExpired = !bill.paid && !bill.canceled && 
                        (Number(bill.createdAt) + BILL_EXPIRY_SECONDS <= currentTime);
       

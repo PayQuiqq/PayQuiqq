@@ -17,7 +17,7 @@ export function CTA() {
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-            Join thousands of merchants and customers already using QuikPay for seamless, gasless crypto payments on
+            Join thousands of merchants and customers already using PayQuiq for seamless, gasless crypto payments on
             the Lisk network.
           </p>
 
@@ -55,7 +55,7 @@ export function CTA() {
           <CardContent className="p-8 md:p-12 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Join the Future of Crypto Payments</h2>
             <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
-              Whether you're a business ready to accept crypto payments or a customer wanting seamless transactions, QuikPay makes it simple and gasless.
+              Whether you're a business ready to accept crypto payments or a customer wanting seamless transactions, PayQuiq makes it simple and gasless.
             </p>
           </CardContent>
         </Card>

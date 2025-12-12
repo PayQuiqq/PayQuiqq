@@ -17,7 +17,7 @@ const steps = [
   {
     icon: CheckCircle,
     title: "Instant Settlement",
-    description: "QuikPay can sponsor gas fees and settles the payment instantly on the Lisk network",
+    description: "PayQuiq can sponsor gas fees and settles the payment instantly on the Lisk network",
     step: "03",
   },
 ]
@@ -28,7 +28,7 @@ export function HowItWorks() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 animate-slide-up">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            How <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">QuikPay</span>{" "}
+            How <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">PayQuiq</span>{" "}
             Works
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

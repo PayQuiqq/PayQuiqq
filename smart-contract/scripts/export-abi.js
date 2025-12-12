@@ -3,8 +3,8 @@ const path = require('path');
 const hre = require('hardhat');
 
 async function main() {
-  const artifact = await hre.artifacts.readArtifact('QuikPay');
-  const outPath = path.resolve(__dirname, '..', '..', 'frontend', 'lib', 'abi', 'quikpay.json');
+  const artifact = await hre.artifacts.readArtifact('PayQuiq');
+  const outPath = path.resolve(__dirname, '..', '..', 'frontend', 'lib', 'abi', 'PayQuiq.json');
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(artifact.abi, null, 2));
   console.log('ABI written to:', outPath);

@@ -20,9 +20,9 @@ async function main() {
   const amount = BigInt(amountWeiStr);
 
   const billId = ethers.keccak256(ethers.toUtf8Bytes(billIdText));
-  const quikpay = await ethers.getContractAt('QuikPay', contractAddr);
+  const PayQuiq = await ethers.getContractAt('PayQuiq', contractAddr);
   console.log('Creating bill...');
-  const tx = await quikpay.createBill(billId, tokenAddress, amount);
+  const tx = await PayQuiq.createBill(billId, tokenAddress, amount);
   console.log('Tx hash:', tx.hash);
   const receipt = await tx.wait();
   console.log('Mined in block', receipt.blockNumber);

@@ -5,7 +5,7 @@ const features = [
   {
     icon: Zap,
     title: "Gasless Transactions",
-    description: "QuikPay can sponsor gas fees for a seamless crypto checkout experience.",
+    description: "PayQuiq can sponsor gas fees for a seamless crypto checkout experience.",
     color: "from-primary to-primary/60",
   },
   {
@@ -30,7 +30,7 @@ export function Features() {
         <div className="text-center mb-16 animate-slide-up">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Why Choose{" "}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">QuikPay</span>
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">PayQuiq</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Experience the future of crypto payments with cutting-edge technology that makes transactions effortless
