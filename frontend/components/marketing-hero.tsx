@@ -27,12 +27,12 @@ export function MarketingHero({
     <section className="bg-primary pt-24 pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[70vh]">
         <div className="text-center max-w-3xl mx-auto text-primary-foreground">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/30 bg-white/10 text-sm font-medium mb-6 shadow-sm text-primary-foreground">
+          {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/30 bg-white/10 text-sm font-medium mb-6 shadow-sm text-primary-foreground">
             <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-[10px] font-semibold">
               ★
             </span>
             <span>{eyebrow}</span>
-          </div>
+          </div> */}
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight sm:leading-[1.1] mb-4">
             {title}

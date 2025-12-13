@@ -67,7 +67,7 @@ export function Hero() {
 
   return (
     <MarketingHero
-      eyebrow="Zero Gas Fees • Instant Settlements"
+      eyebrow=""
       title="The Future of"
       highlight="Crypto Payments"
       subtitle="Send and receive crypto payments instantly with zero gas fees. Simple, secure, and accessible for everyone."
@@ -83,7 +83,7 @@ export function Hero() {
               size="lg"
               className="bg-white text-primary hover:bg-white/90 text-lg px-8 w-full sm:w-auto"
             >
-              Connect Wallet
+              Make Payment
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>
@@ -101,7 +101,7 @@ export function Hero() {
             variant="outline"
             disabled={isClaiming || claimState === "cooldown"}
             onClick={handleClaim}
-            className="border-white/70 text-primary-foreground hover:bg-white/10 text-lg px-8 w-full sm:w-auto"
+            className="border-white/70 text-primary hover:bg-white/10 text-lg px-8 w-full sm:w-auto"
           >
             {claimState === "claimed"
               ? "Claimed"
