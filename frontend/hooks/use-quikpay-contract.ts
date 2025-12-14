@@ -1,7 +1,7 @@
 'use client'
 
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
-import { PayQuiq_CONTRACT_ADDRESS, PayQuiq_ABI } from '@/lib/contract'
+import { QUIKPAY_CONTRACT_ADDRESS, QUIKPAY_ABI } from '@/lib/contract'
 import { parseEther, type Address } from 'viem'
 
 export type PayAuthorization = {
@@ -15,8 +15,8 @@ export type PayAuthorization = {
 // Hook to read expiry window from contract (BILL_EXPIRY_SECONDS)
 export function useExpiryWindow() {
   return useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'BILL_EXPIRY_SECONDS',
   })
 }
@@ -48,7 +48,7 @@ export function useBillComputedStatus(billId: string) {
   return { loading: false, expired, secondsRemaining, canPay }
 }
 
-export function usePayQuiqContract() {
+export function useQuikPayContract() {
   const { writeContract, data: hash, error, isPending } = useWriteContract()
 
   // Wait for transaction confirmation
@@ -62,8 +62,8 @@ export function usePayQuiqContract() {
       : BigInt(amount)
 
     return writeContract({
-      address: PayQuiq_CONTRACT_ADDRESS,
-      abi: PayQuiq_ABI,
+      address: QUIKPAY_CONTRACT_ADDRESS,
+      abi: QUIKPAY_ABI,
       functionName: 'createBill',
       args: [billId as `0x${string}`, token, amountWei],
     })
@@ -72,8 +72,8 @@ export function usePayQuiqContract() {
   // Pay a bill
   const payBill = async (billId: string) => {
     return writeContract({
-      address: PayQuiq_CONTRACT_ADDRESS,
-      abi: PayQuiq_ABI,
+      address: QUIKPAY_CONTRACT_ADDRESS,
+      abi: QUIKPAY_ABI,
       functionName: 'payBill',
       args: [billId as `0x${string}`],
     })
@@ -93,8 +93,8 @@ export function usePayQuiqContract() {
 // Hook to read bill details
 export function useBillDetails(billId: string) {
   return useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'getBill',
     args: [billId as `0x${string}`],
     query: {
@@ -106,8 +106,8 @@ export function useBillDetails(billId: string) {
 // Hook to check bill status
 export function useBillStatus(billId: string) {
   return useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'billStatus',
     args: [billId as `0x${string}`],
     query: {
@@ -119,8 +119,8 @@ export function useBillStatus(billId: string) {
 // Hook to get user's bills
 export function useUserBills(userAddress: Address) {
   return useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'getUserBills',
     args: [userAddress],
     query: {
@@ -132,8 +132,8 @@ export function useUserBills(userAddress: Address) {
 // Hook to generate bill ID
 export function useGenerateBillId(userAddress: Address, nonce: bigint) {
   return useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'generateBillId',
     args: [userAddress, nonce],
     query: {
@@ -145,8 +145,8 @@ export function useGenerateBillId(userAddress: Address, nonce: bigint) {
 // Hook to get user nonce
 export function useUserNonce(userAddress: Address) {
   return useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'getNonce',
     args: [userAddress],
     query: {
@@ -158,14 +158,14 @@ export function useUserNonce(userAddress: Address) {
 // Hook to get contract stats
 export function useContractStats() {
   const { data: totalBills } = useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'totalBills',
   })
 
   const { data: totalPaidBills } = useReadContract({
-    address: PayQuiq_CONTRACT_ADDRESS,
-    abi: PayQuiq_ABI,
+    address: QUIKPAY_CONTRACT_ADDRESS,
+    abi: QUIKPAY_ABI,
     functionName: 'totalPaidBills',
   })
 
