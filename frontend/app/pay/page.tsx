@@ -17,8 +17,7 @@ const BarcodeScanner = dynamic(() =>
 ) as unknown as ComponentType<{ onUpdate: (err: any, result: any) => void } | any>
 import { Navigation } from "@/components/navigation"
 import { WalletConnect } from "@/components/wallet-connect"
-import { usePayQuiqContract, useBillDetails, type PayAuthorization } from "@/hooks/use-quikpay-contract"
-
+import { useQuikPayContract, useBillDetails, type PayAuthorization } from "@/hooks/use-quikpay-contract"
 import { TOKENS } from "@/lib/contract"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { parseUnits } from "viem"
@@ -26,7 +25,7 @@ import Link from "next/link"
 
 export default function PayPage() {
   const { address, isConnected } = useAccount()
-  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = usePayQuiqContract()
+  const { payBill, isPending, isConfirming, isConfirmed, error, hash } = useQuikPayContract()
   
   const [paymentLink, setPaymentLink] = useState("")
   const [copiedLink, setCopiedLink] = useState(false)
@@ -38,8 +37,6 @@ export default function PayPage() {
   const [isComplete, setIsComplete] = useState(false)
   const [activeTab, setActiveTab] = useState("scan")
   const [uiError, setUiError] = useState<string>("")
-  // Offramp tab currently shows a simple Coming Soon message; detailed UI will be added later
-
   const [isEditingAmount, setIsEditingAmount] = useState(false)
   const [scannerActive, setScannerActive] = useState(false)
   const [scannerError, setScannerError] = useState<string>("")
@@ -449,7 +446,7 @@ export default function PayPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
       <Navigation />
 
       <main className="pt-24 pb-12 px-4">
@@ -466,11 +463,11 @@ export default function PayPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary text-primary-foreground">
-                <Wallet className="w-6 h-6" />
+              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-primary rounded-xl flex items-center justify-center animate-pulse-glow">
+                <Wallet className="w-6 h-6 text-white" />
               </div>
-              <h1 className="text-4xl font-bold text-foreground">
-                <span className="text-primary">Make</span> Payment
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
+                Make Payment
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -493,9 +490,9 @@ export default function PayPage() {
                   <CheckCircle className="w-4 h-4" />
                   <span>Confirm</span>
                 </TabsTrigger>
-                <TabsTrigger value="offramp" className="flex items-center space-x-2">
+                <TabsTrigger value="payouts" className="flex items-center space-x-2">
                   <Wallet className="w-4 h-4" />
-                  <span>Offramp</span>
+                  <span>Fiat Payouts</span>
                 </TabsTrigger>
               </TabsList>
 
@@ -715,19 +712,25 @@ export default function PayPage() {
                 )}
               </TabsContent>
 
-              <TabsContent value="offramp" className="mt-6">
+              <TabsContent value="payouts" className="mt-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <Wallet className="w-5 h-5 text-primary" />
-                      <span>Offramp</span>
+                      <span>Fiat Payouts (Coming Soon)</span>
                     </CardTitle>
-                    
+                    <CardDescription>
+                      Pay with crypto while the merchant receives fiat directly to their bank or account.
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground text-sm">
-                      COMING SOON
-                    </p>
+                    <div className="text-center py-12">
+                      <p className="text-lg font-semibold mb-2">Coming soon</p>
+                      <p className="text-muted-foreground max-w-md mx-auto">
+                        We&apos;re building a simple on/off-ramp so your crypto payment can settle in fiat for the merchant,
+                        while you still enjoy a smooth PayQuiq experience.
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
